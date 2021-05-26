@@ -1,0 +1,119 @@
+[package]
+name = "cpsnarks-set"
+version = "0.1.0"
+authors = ["Kobi Gurkan <kobigurk@gmail.com>"]
+edition = "2018"
+
+exclude = [ "src/protocols/hash_to_prime/*"]
+
+[dependencies]
+gmp-mpfr-sys = "1.2.2"
+
+accumulator = { path = "../cpsnarks-set-accumulator" }
+quick-error = "1.2.3"
+rug = { version = "=1.7.0", features = ["serde", "integer"] }
+merlin = "2.0.0"
+rand = { version = "0.7" }
+curve25519-dalek = { version = "3", optional = true, features = ["serde"] }
+#curve25519-dalek = "3.0.0"
+
+bulletproofs = { git = "https://github.com/matteocam/bulletproofs", branch = "develop", optional = true, features = ["yoloproofs"] }
+digest = "0.8.1"
+blake2 = ">= 0.8.1"
+cfg-if = "0.1"
+num-bigint = {version = "0.3", default-features = false }
+tracing = { version = "0.1", default-features = false, features = [ "attributes" ] }
+num-traits = {version = " >= 0.2.14", default-features = false }
+serde = { version = "1.0.118", features = ["derive"] }
+
+
+#ark-r1cs-std = { git = "https://github.com/arkworks-rs/r1cs-std",  default-features = false }
+
+ark-serialize = { git = "https://github.com/arkworks-rs/algebra", default-features = false, features = [ "derive" ] }
+ark-ec = { git = "https://github.com/arkworks-rs/algebra", default-features = false }
+ark-ff = { git = "https://github.com/arkworks-rs/algebra", default-features = false }
+ark-std = { git = "https://github.com/arkworks-rs/utils",default-features = false}
+ark-poly = { git = "https://github.com/arkworks-rs/algebra", default-features = false }
+ark-relations = { git = "https://github.com/arkworks-rs/snark", default-features = false }
+ark-poly-commit = { git = "https://github.com/arkworks-rs/poly-commit", default-features = false }
+# bench-utils = { git = "https://github.com/arkworks-rs/utils", default-features = false }
+
+rug-binserial = { git = "https://github.com/matteocam/rug-binserial" }
+proofsize_derive = "0.1.0"
+
+[features]
+dalek = ["curve25519-dalek", "bulletproofs"]
+class = []
+default = ["dalek"]
+zexe = []
+
+[dev-dependencies]
+criterion = "0.3"
+
+[lib]
+bench = false
+
+[[bench]]
+name = "root"
+harness = false
+required-features = ["zexe"]
+
+[[bench]]
+name = "modeq"
+harness = false
+required-features = ["zexe"]
+
+[[bench]]
+name = "rsa"
+harness = false
+required-features = ["zexe"]
+
+[[bench]]
+name = "membership_prime"
+harness = false
+required-features = ["zexe"]
+
+[[bench]]
+name = "nonmembership_prime"
+harness = false
+required-features = ["zexe"]
+
+[[bench]]
+name = "membership_hash"
+harness = false
+required-features = ["zexe"]
+
+[[bench]]
+name = "membership_class"
+harness = false
+required-features = ["zexe", "class"]
+
+[[bench]]
+name = "membership_bp"
+harness = false
+required-features = ["dalek"]
+
+[[bench]]
+name = "snark_range"
+harness = false
+required-features = ["zexe"]
+
+[[bench]]
+name = "membership_prime_60"
+harness = false
+required-features = ["zexe"]
+
+[[bench]]
+name = "membership_bp_60"
+harness = false
+required-features = ["dalek"]
+
+[[bench]]
+name = "nonmembership_hash"
+harness = false
+required-features = ["zexe"]
+
+[[bench]]
+name = "nonmembership_bp"
+harness = false
+required-features = ["dalek"]
